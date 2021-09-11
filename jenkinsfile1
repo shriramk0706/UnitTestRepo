@@ -1,0 +1,37 @@
+CODE_CHANGES = getGitChanges()
+pipeline {
+    agent any
+    environment {
+        NEW_VERSION = '1.6.0'
+    }
+    parameters {
+        string(name: 'Unit Test', defaultValue: 'Test stage has invoked', description: 'Test stage is running')
+        choice(name: 'jdkVersion', choices: ['1.8', '1.9', '1.12'], description: 'Building with this version')
+        booleanParam(name: 'executeTests', defaultValue: true, description: 'Execute tests with this parameter')
+    }
+    stages {
+        stage ("Build") {
+            when {
+                expression {
+                    params.executeTests
+                    BRANCH_NAME == 'feature' && CODE_CHANGES == true
+                }
+            }
+            steps {
+                echo 'Builiding the application...'
+                echo "Building with version ${NEW_VERSION}"
+            }
+        }
+        stage ("Test") {
+            when {
+                expression {
+                    params.executeTests
+                    BRANCH_NAME == 'feature' && CODE_CHANGES == true
+                }
+            }
+            steps {
+                echo 'Test is running...'
+            }
+        }
+    }
+}
