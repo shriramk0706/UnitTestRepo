@@ -3,6 +3,7 @@ pipeline {
     agent any
     environment {
         NEW_VERSION = '1.6.0'
+        PATH = "E:/apache-maven-3.6.3-bin/apache-maven-3.6.3/bin:$PATH"
     }
     parameters {
         string(name: 'Unit Test', defaultValue: 'Test stage has invoked', description: 'Test stage is running')
@@ -10,6 +11,13 @@ pipeline {
         booleanParam(name: 'executeTests', defaultValue: true, description: 'Execute tests with this parameter')
     }
     stages {
+        stage ("Log Jenkins with Maven, Git and Java info") {
+            steps {
+                sh 'mvn -version'
+                sh 'java -version'
+                sh 'git --version'
+            }
+        }
         stage ("Build") {
             when {
                 expression {
@@ -21,6 +29,8 @@ pipeline {
             steps {
                 echo 'Builiding the application...'
                 echo "Building with version ${NEW_VERSION}"
+                git 'https://github.com/shriramk0706/UnitTestRepo.git'
+                sh 'mvn clean compile'
             }
         }
         stage ("Test") {
@@ -33,6 +43,7 @@ pipeline {
             }
             steps {
                 echo 'Test is running...'
+                sh 'mvn test install'
             }
         }
     }
