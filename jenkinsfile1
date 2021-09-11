@@ -30,7 +30,7 @@ pipeline {
                 echo 'Building the application...'
                 echo "Building with version ${NEW_VERSION}"
                 git 'https://github.com/shriramk0706/UnitTestRepo.git'
-                withMaven(maven : 'apache-maven-3.6.3')
+                //withMaven(maven : 'apache-maven-3.6.3')
                 bat 'mvn clean compile'
             }
         }
