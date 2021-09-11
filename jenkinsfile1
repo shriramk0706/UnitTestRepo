@@ -35,7 +35,7 @@ pipeline {
                 echo "Building with version ${env.NEW_VERSION}"
                 //git 'https://github.com/shriramk0706/UnitTestRepo.git'
                 //withMaven(maven : 'apache-maven-3.6.3')
-                bat "mvn -Dmaven.test.failure.ignore=true test package"
+                bat "mvn -Dmaven.test.failure.ignore=true clean compile"
             }
         }
         stage ("Test") {
