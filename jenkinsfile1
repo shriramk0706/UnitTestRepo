@@ -1,8 +1,12 @@
 //CODE_CHANGES = getGitChanges()
 pipeline {
     agent any
+    tools {
+        maven 'Maven_3.6.3'
+    }
     environment {
         NEW_VERSION = '1.6.0'
+        BRANCH_NAME = 'feature'
         PATH = "E:/apache-maven-3.6.3-bin/apache-maven-3.6.3/bin:${env.PATH}"
     }
     parameters {
@@ -29,9 +33,9 @@ pipeline {
             steps {
                 echo 'Building the application...'
                 echo "Building with version ${NEW_VERSION}"
-                git 'https://github.com/shriramk0706/UnitTestRepo.git'
+                //git 'https://github.com/shriramk0706/UnitTestRepo.git'
                 //withMaven(maven : 'apache-maven-3.6.3')
-                bat 'mvn clean compile'
+                bat "mvn clean compile"
             }
         }
         stage ("Test") {
@@ -44,7 +48,7 @@ pipeline {
             }
             steps {
                 echo 'Test is running...'
-                bat 'mvn test install'
+                bat "mvn test install"
             }
         }
     }
