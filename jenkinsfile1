@@ -1,6 +1,9 @@
 //CODE_CHANGES = getGitChanges()
 pipeline {
     agent any
+    tools {
+        maven 'MavenDefault'
+    }
     environment {
         NEW_VERSION = '1.6.0'
         BRANCH_NAME = 'feature'
@@ -29,10 +32,10 @@ pipeline {
             }
             steps {
                 echo 'Building the application...'
-                echo "Building with version ${NEW_VERSION}"
+                echo "Building with version ${env.NEW_VERSION}"
                 //git 'https://github.com/shriramk0706/UnitTestRepo.git'
                 //withMaven(maven : 'apache-maven-3.6.3')
-                bat "mvn clean compile"
+                sh "mvn -Dmaven.test.failure.ignore=true test package"
             }
         }
         stage ("Test") {
@@ -45,7 +48,7 @@ pipeline {
             }
             steps {
                 echo 'Test is running...'
-                bat "mvn test install"
+                sh "mvn test install"
             }
         }
     }
