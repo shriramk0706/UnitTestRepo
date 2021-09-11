@@ -12,7 +12,7 @@ pipeline {
     parameters {
         string(name: 'Unit Test', defaultValue: 'Test stage has invoked', description: 'Test stage is running')
         choice(name: 'jdkVersion', choices: ['1.8', '1.9', '1.12'], description: 'Building with this version')
-        booleanParam(name: 'executeTests', defaultValue: true, description: 'Execute tests with this parameter')
+        booleanParam(name: 'executeTests', defaultValue: 'true', description: 'Execute tests with this parameter')
     }
     stages {
         stage ("Log Jenkins with Maven, Git and Java info") {
@@ -25,9 +25,10 @@ pipeline {
         stage ("Build") {
             when {
                 expression {
-                    ${params.executeTests} == true
-                    return env.BRANCH_NAME == 'feature';
+                    ${params.executeTests} == 'true'
+                    //return env.BRANCH_NAME == 'feature';
                             //&& CODE_CHANGES == true
+                    BRANCH_NAME == 'true'
                 }
             }
             steps {
