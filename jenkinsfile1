@@ -23,13 +23,13 @@ pipeline {
             }
         }
         stage ("Build") {
-           /* when {
+            when {
                 expression {
-                    params.executeTests
-                    ${env.BRANCH_NAME} == 'feature'
+                    ${params.executeTests} == true
+                    return env.BRANCH_NAME == 'feature';
                             //&& CODE_CHANGES == true
                 }
-            }*/
+            }
             steps {
                 echo 'Building the application...'
                 echo "Building with version ${env.NEW_VERSION}"
@@ -39,13 +39,13 @@ pipeline {
             }
         }
         stage ("Test") {
-            /*when {
+            when {
                 expression {
                     params.executeTests
-                    ${env.BRANCH_NAME} == 'feature'
+                    branch 'feature'
                             //&& CODE_CHANGES == true
                 }
-            }*/
+            }
             steps {
                 echo 'Test is running...'
                 bat "mvn test install"
