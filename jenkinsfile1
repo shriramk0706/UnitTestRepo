@@ -39,13 +39,13 @@ pipeline {
             }
         }
         stage ("Test") {
-            when {
+            /*when {
                 expression {
                     params.executeTests
                     ${env.BRANCH_NAME} == 'feature'
                             //&& CODE_CHANGES == true
                 }
-            }
+            }*/
             steps {
                 echo 'Test is running...'
                 bat "mvn test install"
