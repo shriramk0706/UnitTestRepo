@@ -1,9 +1,6 @@
 //CODE_CHANGES = getGitChanges()
 pipeline {
     agent any
-    tools {
-        maven 'Maven_3.6.3'
-    }
     environment {
         NEW_VERSION = '1.6.0'
         BRANCH_NAME = 'feature'
