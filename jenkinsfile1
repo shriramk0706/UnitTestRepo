@@ -7,7 +7,7 @@ pipeline {
     environment {
         NEW_VERSION = '1.6.0'
         TestType = 'UnitTest'
-        //BRANCH_NAME = 'feature'
+        BRANCH = 'feature'
         //PATH = "E:/apache-maven-3.6.3-bin/apache-maven-3.6.3/bin:${env.PATH}"
         //BUILD_AT = 'Test Phase'
     }
@@ -27,11 +27,8 @@ pipeline {
         }
         stage ("Build") {
             when {
-                expression {
-                    if (params.BRANCH_NAME == 'feature') {
-                        echo "Pull the ${TestType} cases from given branch for build"
-                    }
-                }
+                    //params.BRANCH_NAME == 'feature'
+                    environment name: 'BRANCH', value: 'feature'
             }
             /*when {
                     branch 'feature';
@@ -48,9 +45,7 @@ pipeline {
         stage ("Test") {
             when {
                 expression {
-                    if (params.executeTests) {
-                        echo "Run test cases"
-                    }
+                    params.executeTests
                 }
             }
            /* when {
