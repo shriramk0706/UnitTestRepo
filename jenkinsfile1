@@ -27,7 +27,7 @@ pipeline {
         stage ("Build") {
             when {
                 expression {
-                    params.executeTests == 'true' && params.BRANCH_NAME == 'feature'
+                    params.BRANCH_NAME == 'feature'
                 }
             }
             /*when {
