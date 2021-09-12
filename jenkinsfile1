@@ -6,15 +6,16 @@ pipeline {
     }
     environment {
         NEW_VERSION = '1.6.0'
+        TestType = 'UnitTest'
         //BRANCH_NAME = 'feature'
         //PATH = "E:/apache-maven-3.6.3-bin/apache-maven-3.6.3/bin:${env.PATH}"
         //BUILD_AT = 'Test Phase'
     }
     parameters {
-        string(name: 'Unit Test', defaultValue: 'Test stage has invoked', description: 'Test stage is running')
+        string(name: 'Unit_Test', defaultValue: 'Test stage has invoked', description: 'Test stage is running')
         choice(name: 'jdkVersion', choices: ['1.8', '1.9', '1.12'], description: 'Building with this version')
         choice(name: 'BRANCH_NAME', choices: ['feature', 'master'], description: 'Pull the code from given branch')
-        booleanParam(name: 'executeTests', defaultValue: 'true', description: 'Execute tests with this parameter')
+        booleanParam(name: 'executeTests', defaultValue: true, description: 'Execute tests with this parameter')
     }
     stages {
         stage ("Log Jenkins with Maven, Git and Java info") {
@@ -27,7 +28,9 @@ pipeline {
         stage ("Build") {
             when {
                 expression {
-                    params.BRANCH_NAME == 'feature'
+                    if (params.BRANCH_NAME == 'feature') {
+                        echo "Pull the ${TestType} cases from given branch for build"
+                    }
                 }
             }
             /*when {
@@ -43,13 +46,13 @@ pipeline {
             }
         }
         stage ("Test") {
-           /* when {
+            when {
                 expression {
-                    params.executeTests
-                    branch 'feature'
-                            //&& CODE_CHANGES == true
+                    if (params.executeTests) {
+                        echo "Run test cases"
+                    }
                 }
-            }*/
+            }
            /* when {
                 branch 'feature'
             }*/
