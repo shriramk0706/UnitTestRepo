@@ -53,7 +53,7 @@ pipeline {
             }*/
             steps {
                 echo 'Test is running...'
-                bat "mvn verify"
+                bat "mvn clean test"
             }
         }
     }
