@@ -52,7 +52,7 @@ pipeline {
                 branch 'feature'
             }*/
             steps {
-                echo 'Test is running...'
+                echo "${env.TestType} is running..."
                 bat "mvn clean test"
             }
         }
